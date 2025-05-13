@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ExchangeRateService {
@@ -41,7 +42,12 @@ public class ExchangeRateService {
 
         JsonObject conversionRates = jsonObject.getAsJsonObject("conversion_rates");
 
-        return gson.fromJson(conversionRates, Map.class);
+        Map<String, Double> taxas = new LinkedHashMap<>();
+        for (String key : conversionRates.keySet()) {
+            taxas.put(key, conversionRates.get(key).getAsDouble());
+        }
+
+        return taxas;
     }
 
     public Double obterTaxa(String moedaBase, String moedaDestino) throws IOException, InterruptedException {
