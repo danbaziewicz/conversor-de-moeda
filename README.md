@@ -109,17 +109,19 @@ conversor-de-moeda/
 │   └── main/
 │       └── java/
 │           └── br/
-│               └── com/
-│                   └── baziewicz/
-│                       └── conversordemoeda/
-│                           ├── controller/
-│                           │   └── ConversaoController.java
-│                           ├── servico/
-│                           │   └── ExchangeRateService.java
-│                           ├── util/
-│                           │   └── ApiKeyLoader.java
-│                           │
-│                           └── Main.java
+│           │   └── com/
+│           │       └── baziewicz/
+│           │           └── conversordemoeda/
+│           │               ├── controller/
+│           │               │   └── ConversaoController.java
+│           │               ├── servico/
+│           │               │   └── ExchangeRateService.java
+│           │               ├── util/
+│           │               │   └── ApiKeyLoader.java
+│           │               │
+│           │               └── Main.java
+│           └── resources/
+│               └── api-key.properties
 ├── .gitignore
 └── README.md
 ```
@@ -129,10 +131,15 @@ conversor-de-moeda/
 ## 🔐 Chave da API
 
 A chave da API é carregada através da classe `ApiKeyLoader`, que lê um arquivo `.env` ou `.properties`. Certifique-se de incluir sua chave da ExchangeRate API.
-Você pode fazer a requisição da chave através do link abaixo:
+Para utilizar a API ExchangeRate-API, é necessário obter uma chave de API:
+
+Acesse ExchangeRate-API e crie uma conta gratuita.
 ```bash
 https://www.exchangerate-api.com/
 ```
+Após o registro, você receberá uma chave de API.
+Crie um arquivo chamado ```api-key.properties``` na raiz do projeto e adicione a seguinte linha:
+
 ---
 
 ## 📃 Licença
