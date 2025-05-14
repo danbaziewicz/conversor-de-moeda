@@ -3,17 +3,28 @@ package br.com.baziewicz.conversordemoeda.controller;
 import br.com.baziewicz.conversordemoeda.servico.ExchangeRateService;
 
 import java.io.IOException;
-import java.util.InputMismatchException;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class ConversaoController {
     private final ExchangeRateService service;
     private final Scanner scanner;
+    private final Map<Integer, String[]> opcoesConversao;
 
     public ConversaoController() {
         this.service = new ExchangeRateService();
         this.scanner = new Scanner(System.in);
+        this.opcoesConversao = new LinkedHashMap<>() {{
+            put(1, new String[]{"USD", "BRL"});
+            put(2, new String[]{"BRL", "USD"});
+            put(3, new String[]{"USD", "ARS"});
+            put(4, new String[]{"ARS", "USD"});
+            put(5, new String[]{"USD", "COP"});
+            put(6, new String[]{"COP", "USD"});
+            put(7, new String[]{"USD", "EUR"});
+            put(8, new String[]{"EUR", "USD"});
+            put(9, new String[]{"USD", "GBP"});
+            put(10, new String[]{"GBP", "USD"});
+        }};
     }
 
     public void iniciar() throws IOException, InterruptedException {
@@ -58,15 +69,16 @@ public class ConversaoController {
     private void menuConversao() throws IOException, InterruptedException {
         int opcao = 0;
 
-        while (opcao != 7) {
+        while (opcao != opcoesConversao.size() + 1) {
             exibirMenuConversao();
             try {
                 if (scanner.hasNextInt()) {
                     opcao = scanner.nextInt();
+                    scanner.nextLine();
 
-                    if (opcao >= 1 && opcao <= 6) {
+                    if (opcoesConversao.containsKey(opcao)) {
                         realizarConversao(opcao);
-                    } else if (opcao == 7) {
+                    } else if (opcao == opcoesConversao.size() + 1) {
                         System.out.println("Retornando ao menu principal.");
                     } else {
                         System.out.println("Opção inválida. Tente novamente.");
@@ -87,13 +99,12 @@ public class ConversaoController {
     private void exibirMenuConversao() {
         System.out.println("**************************************");
         System.out.println("Conversão entre moedas:");
-        System.out.println("1) Dólar =>> Real brasileiro");
-        System.out.println("2) Real brasileiro =>> Dólar");
-        System.out.println("3) Dólar =>> Peso argentino");
-        System.out.println("4) Peso argentino =>> Dólar");
-        System.out.println("5) Dólar =>> Peso colombiano");
-        System.out.println("6) Peso colombiano =>> Dólar");
-        System.out.println("7) Voltar");
+        for (Map.Entry<Integer, String[]> entry : opcoesConversao.entrySet()) {
+            int numero = entry.getKey();
+            String[] moedas = entry.getValue();
+            System.out.printf("%d) %s =>> %s%n", numero, moedas[0], moedas[1]);
+        }
+        System.out.printf("%d) Voltar%n", opcoesConversao.size() + 1);
         System.out.println("Escolha uma opção válida: ");
         System.out.println("**************************************");
     }
@@ -104,17 +115,9 @@ public class ConversaoController {
             double valor = scanner.nextDouble();
             scanner.nextLine();
 
-            String moedaBase = "";
-            String moedaDestino = "";
-
-            switch (opcao) {
-                case 1 -> { moedaBase = "USD"; moedaDestino = "BRL"; }
-                case 2 -> { moedaBase = "BRL"; moedaDestino = "USD"; }
-                case 3 -> { moedaBase = "USD"; moedaDestino = "ARS"; }
-                case 4 -> { moedaBase = "ARS"; moedaDestino = "USD"; }
-                case 5 -> { moedaBase = "USD"; moedaDestino = "COP"; }
-                case 6 -> { moedaBase = "COP"; moedaDestino = "USD"; }
-            }
+            String[] moedas = opcoesConversao.get(opcao);
+            String moedaBase = moedas[0];
+            String moedaDestino = moedas[1];
 
             Double taxa = service.obterTaxa(moedaBase, moedaDestino);
             if (taxa != null) {
@@ -131,7 +134,7 @@ public class ConversaoController {
     }
 
     private void mostrarPanorama() throws IOException, InterruptedException {
-        String[] moedas = {"BRL", "USD", "EUR", "ARS", "COP"};
+        String[] moedas = {"BRL", "USD", "EUR", "ARS", "COP", "GBP", "JPY", "CHF", "AUD", "CAD"};
 
         System.out.println("Escolha a moeda base:");
         for (int i = 0; i < moedas.length; i++) {
