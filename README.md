@@ -116,8 +116,10 @@ conversor-de-moeda/
 │                           │   └── ConversaoController.java
 │                           ├── servico/
 │                           │   └── ExchangeRateService.java
-│                           └── util/
-│                               └── ApiKeyLoader.java
+│                           ├── util/
+│                           │   └── ApiKeyLoader.java
+│                           │
+│                           └── Main.java
 ├── .gitignore
 └── README.md
 ```
