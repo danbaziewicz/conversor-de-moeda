@@ -119,7 +119,6 @@ conversor-de-moeda/
 │                           └── util/
 │                               └── ApiKeyLoader.java
 ├── .gitignore
-├── pom.xml
 └── README.md
 ```
 
