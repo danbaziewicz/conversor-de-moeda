@@ -62,7 +62,7 @@ javac br/com/baziewicz/conversordemoeda/**/*.java
 3. **Execute o programa:**
 
 ```bash
-java br.com.baziewicz.conversordemoeda.controller.ConversaoController
+java br/com/baziewicz/conversordemoeda/Main.java
 ```
 
 ---
